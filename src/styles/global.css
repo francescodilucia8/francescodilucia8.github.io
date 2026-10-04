@@ -989,10 +989,10 @@ button[hidden],
   position: relative;
 }
 .portrait-block img {
-  aspect-ratio: 3/4;
+  aspect-ratio: 4/5;
   width: 100%;
   background: #bcc9b9;
-  object-position: center;
+  object-position: 50% 42%;
 }
 .portrait-caption {
   display: block;
@@ -1935,7 +1935,8 @@ th:first-child {
     max-width: 420px;
   }
   .portrait-block img {
-    max-height: none;
+    max-height: 435px;
+    object-position: 50% 40%;
   }
   .about-copy .eyebrow {
     font-size: 9px;

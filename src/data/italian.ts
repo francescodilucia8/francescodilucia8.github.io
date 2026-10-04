@@ -27,8 +27,8 @@ export const italian: Record<string, string> = {
   "Scroll to selected work": "Vai ai progetti selezionati",
   "SCROLL TO EXPLORE": "SCORRI PER ESPLORARE",
   "01 / SELECTED WORK": "01 / PROGETTI SELEZIONATI",
-  "From ideas to banging my head against the wall to give them shape":
-    "Dalle idee alle testate al muro per dar loro forma",
+  "Ideas are like plants: they need care and patience to grow":
+    "le idee sono come le piante: hanno bisogno di cura e pazienza per crescere",
   Technologies: "Tecnologie",
   "Explore the study": "Esplora lo studio",
   Read: "Leggi",
@@ -60,8 +60,8 @@ export const italian: Record<string, string> = {
   "Pieces that fit together": "Componenti che si integrano",
   "APIs, identity, data and event-driven integration. Clear boundaries between components.":
     "API, identità, dati e integrazione basata su eventi. Responsabilità chiare tra i componenti.",
-  "Francesco presenting his multispectral thesis":
-    "Francesco durante la presentazione della tesi multispettrale",
+  "Francesco outdoors with the mountains behind him":
+    "Francesco all’aperto, con le montagne sullo sfondo",
   "FRANCESCO DI LUCIA / TURIN, ITALY": "FRANCESCO DI LUCIA / TORINO, ITALIA",
   "03 / THE PERSON BEHIND THE WORK": "03 / LA PERSONA DIETRO I PROGETTI",
   "Always looking for opportunities for growth,":
