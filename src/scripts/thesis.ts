@@ -41,8 +41,8 @@ async function setup(scene: HTMLElement) {
   const clock = { time: 0 };
   let userPaused = false,
     started = false,
-    visible = false,
-    loading = false;
+    visible = false;
+  let loading: Promise<void> | undefined;
   let selected = 0;
   const clamp = (v: number) => Math.min(1, Math.max(0, v));
   // Critical damping: monotonic, time-based settling without UI bounce.
@@ -166,33 +166,37 @@ async function setup(scene: HTMLElement) {
     updateButton();
   };
   async function load() {
-    if (timeline || loading || motion.matches) return;
-    loading = true;
-    try {
-      const { gsap } = await import("gsap");
-      if (motion.matches) return;
-      timeline = gsap.timeline({
-        paused: true,
-        onUpdate: () => paint(clock.time),
-        onComplete: updateButton,
-      });
-      timeline.to(
-        clock,
-        { time: thesisDuration, duration: thesisDuration, ease: "none" },
-        0,
-      );
-      if (selected) select(selected);
-    } catch {
-      scene.dataset.animationUnavailable = "true";
-      element(".scene-controls").hidden = true;
-    } finally {
-      loading = false;
-    }
+    if (timeline || motion.matches) return;
+    // Controls share the pending import so replay/play also work during loading.
+    if (loading) return loading;
+    loading = (async () => {
+      try {
+        const { gsap } = await import("gsap");
+        if (motion.matches) return;
+        timeline = gsap.timeline({
+          paused: true,
+          onUpdate: () => paint(clock.time),
+          onComplete: updateButton,
+        });
+        timeline.to(
+          clock,
+          { time: thesisDuration, duration: thesisDuration, ease: "none" },
+          0,
+        );
+        if (selected) select(selected);
+      } catch {
+        scene.dataset.animationUnavailable = "true";
+        element(".scene-controls").hidden = true;
+      } finally {
+        loading = undefined;
+      }
+    })();
+    return loading;
   }
   const reconcile = async () => {
     if (motion.matches) {
       timeline?.pause();
-      select(0);
+      select(selected);
       updateButton();
       return;
     }
@@ -252,7 +256,7 @@ async function setup(scene: HTMLElement) {
     userPaused = false;
     started = true;
     await load();
-    timeline?.restart();
+    if (!userPaused) timeline?.restart();
     updateButton();
   });
   const observer = new IntersectionObserver(

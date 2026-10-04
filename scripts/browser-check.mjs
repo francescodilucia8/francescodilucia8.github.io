@@ -218,6 +218,25 @@ await check("Expanded stage selectors", async () => {
     fullPage: true,
   });
 });
+await check("Replay requested while the animation library is loading", async () => {
+  const slow = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  const p = await slow.newPage();
+  let releaseImport;
+  const pendingImport = new Promise((resolve) => { releaseImport = resolve; });
+  await p.route("**/*gsap*", async (route) => { await pendingImport; await route.continue(); });
+  try {
+    await p.goto(url + "work/multispectral-thesis/");
+    await p.getByRole("button", { name: "03 / Region & mask" }).click();
+    await p.getByRole("button", { name: "Replay thesis animation" }).click();
+    releaseImport();
+    await p.getByRole("button", { name: "Pause thesis animation" }).waitFor();
+    assert.equal(await p.locator("[data-thesis]").getAttribute("data-stage"), "0");
+    await p.getByRole("button", { name: "Pause thesis animation" }).click();
+  } finally {
+    releaseImport();
+    await slow.close();
+  }
+});
 await check("Automated accessibility: home, case studies and 404", async () => {
   const reports = [];
   for (const route of [
@@ -267,6 +286,13 @@ await check(
       await p.locator("[data-thesis]").getAttribute("data-stage"),
       "1",
     );
+    // Visibility reconciliation must preserve a manually selected reduced-motion still.
+    await p.evaluate(() => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      document.dispatchEvent(new Event("visibilitychange"));
+    });
+    await p.locator("[data-thesis]").scrollIntoViewIfNeeded();
+    assert.equal(await p.locator("[data-thesis]").getAttribute("data-stage"), "1");
     assert.ok(!requests.some((r) => /gsap/i.test(r)), requests.join("\n"));
     await p.screenshot({
       path: `${output}/reduced-motion.png`,
