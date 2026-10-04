@@ -1,0 +1,490 @@
+/* A shared canopy connects every shot. All animated values come from thesis.ts. */
+.workflow-reel .reel-canvas {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 24px;
+  align-items: center;
+  margin: 24px auto;
+  max-width: 760px;
+  min-height: 280px;
+}
+.workflow-reel .reel-view {
+  aspect-ratio: 1;
+  position: relative;
+  overflow: hidden;
+  background: #344b32;
+  isolation: isolate;
+}
+.orchard-camera {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+}
+.workflow-reel img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.acquisition-sweep {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: #e9f2ca;
+  box-shadow: 0 0 0 10px #e9f2ca18;
+}
+.target-canopy {
+  position: absolute;
+  inset: 39%;
+  border: 1px solid #f0f4d5;
+}
+.target-canopy::after {
+  content: "+";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #f0f4d5;
+  font: 24px var(--mono);
+}
+.registration-layer {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  opacity: 0;
+  filter: grayscale(1);
+  pointer-events: none;
+}
+.vegetation-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: #d9f291;
+  opacity: 0;
+}
+.roi-square {
+  position: absolute;
+  inset: 12%;
+  border: 2px solid #eef3c6;
+  opacity: 0;
+}
+.canopy-patches {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  opacity: 0;
+}
+.canopy-patch {
+  background-size: 300% 300%;
+  aspect-ratio: 1;
+  border: 1px solid #f5f7e0;
+  transform-origin: center;
+}
+.channel-overlay {
+  position: absolute;
+  inset: 0;
+  background: #b6e087;
+  mix-blend-mode: color;
+  opacity: 0;
+}
+.image-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 8px 9px;
+  background: #173421e8;
+  color: #f1f4dc;
+  font-size: 9px;
+  line-height: 1.5;
+}
+.reel-details {
+  position: relative;
+  min-width: 0;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.reel-panel {
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  width: 100%;
+  color: var(--forest);
+}
+.workflow-reel[data-stage="0"] [data-panel="0"],
+.workflow-reel[data-stage="1"] [data-panel="1"],
+.workflow-reel[data-stage="2"] [data-panel="2"],
+.workflow-reel[data-stage="3"] [data-panel="3"],
+.workflow-reel[data-stage="4"] [data-panel="4"],
+.workflow-reel[data-stage="5"] [data-panel="5"],
+.workflow-reel[data-stage="6"] [data-panel="6"],
+.workflow-reel[data-stage="7"] [data-panel="7"] {
+  display: flex;
+}
+.reel-kicker {
+  font: 10px/1.5 var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.reel-panel strong {
+  font: 500 clamp(17px, 1.8vw, 26px)/1.25 var(--sans);
+  letter-spacing: -0.04em;
+}
+.reel-panel small {
+  font: 10px/1.65 var(--mono);
+  color: #30482d;
+}
+.spectral-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.spectral-chips span {
+  padding: 9px 7px;
+  background: #254736;
+  color: #f1f4dc;
+  font: 10px var(--mono);
+}
+.registration-diagram {
+  position: relative;
+  width: 100%;
+  height: 90px;
+}
+.registration-diagram i {
+  position: absolute;
+  inset: 10px 25%;
+  border: 1px solid #24472e;
+  background: #b3c99044;
+}
+.registration-diagram b {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font: 24px var(--mono);
+}
+.index-equation {
+  font: 12px var(--mono);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.index-equation span {
+  text-align: center;
+  line-height: 1.7;
+}
+.index-equation em {
+  border-top: 1px solid;
+  font-style: normal;
+  display: block;
+}
+.process-chain {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font: 10px var(--mono);
+}
+.process-chain span {
+  border-left: 2px solid #365238;
+  padding: 5px 8px;
+}
+.patch-numbers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  width: 100%;
+  max-width: 150px;
+}
+.patch-numbers span {
+  text-align: center;
+  padding: 7px;
+  background: #284b36;
+  color: #eef3da;
+  font: 10px var(--mono);
+}
+.channel-stack {
+  width: calc(100% - 20px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.channel-stack span {
+  padding: 6px 10px;
+  border: 1px solid #54734e;
+  background: #d2ddb8;
+  font: 11px var(--mono);
+}
+.model-flow,
+.inference-flow,
+.comparison-lines {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  font: 10px/1.4 var(--mono);
+  text-align: center;
+}
+.model-flow span,
+.inference-flow > span,
+.comparison-lines span {
+  padding: 8px;
+  border: 1px solid #54734e;
+}
+.model-flow b,
+.inference-flow b {
+  padding: 12px 6px;
+  background: #254736;
+  color: #f1f4dc;
+  font-weight: 400;
+}
+.model-flow i,
+.comparison-lines i {
+  font-style: normal;
+}
+.signal-rail {
+  position: relative;
+  width: 2px;
+  height: 16px;
+  margin: auto;
+  background: #88a272;
+}
+.signal-rail i {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  left: -2px;
+  top: 0;
+  background: #254736;
+}
+.evaluation-groups {
+  display: flex;
+  width: 100%;
+  gap: 4px;
+  font: 10px var(--mono);
+}
+.evaluation-groups > * {
+  flex: 1;
+  text-align: center;
+  padding: 10px 2px;
+  border: 1px solid #54734e;
+  font-weight: 400;
+}
+.evaluation-groups b {
+  background: #254736;
+  color: #f1f4dc;
+}
+.workflow-reel .scene-current {
+  max-width: 760px;
+  padding-bottom: 8px;
+}
+.workflow-reel .scene-explanation {
+  max-width: 760px;
+  min-height: 60px;
+  margin: 0 auto 18px;
+  font-size: 12px;
+  line-height: 1.65;
+  color: #30482d;
+}
+.workflow-reel .scene-track,
+.workflow-reel .scene-footer {
+  max-width: 760px;
+  margin-inline: auto;
+}
+.workflow-reel .scene-disclaimer {
+  font-size: 9px;
+  max-width: 250px;
+  color: #30482d;
+}
+.workflow-reel.expanded .reel-canvas {
+  grid-template-columns: 1.25fr 1fr;
+  gap: 45px;
+  margin-block: 28px;
+  min-height: 330px;
+}
+.workflow-reel.expanded .reel-panel strong {
+  font-size: 32px;
+}
+.workflow-reel.expanded .reel-panel small,
+.workflow-reel.expanded .reel-kicker {
+  font-size: 12px;
+}
+.workflow-reel.expanded .scene-explanation {
+  min-height: 42px;
+  font-size: 13px;
+}
+.workflow-reel.expanded .stage-list {
+  grid-template-columns: repeat(4, 1fr);
+}
+@media (max-width: 1100px) {
+  .workflow-reel .reel-canvas {
+    gap: 16px;
+    min-height: 250px;
+  }
+  .reel-panel {
+    gap: 12px;
+  }
+  .reel-panel strong {
+    font-size: 19px;
+  }
+}
+@media (max-width: 700px) {
+  .workflow-reel .reel-canvas,
+  .workflow-reel.expanded .reel-canvas {
+    grid-template-columns: 1.05fr 1fr;
+    gap: 16px;
+    min-height: 235px;
+    margin-block: 20px;
+  }
+  .workflow-reel .reel-panel strong,
+  .workflow-reel.expanded .reel-panel strong {
+    font-size: 19px;
+  }
+  .workflow-reel .reel-panel small,
+  .workflow-reel.expanded .reel-panel small {
+    font-size: 10px;
+  }
+  .workflow-reel .reel-kicker,
+  .workflow-reel.expanded .reel-kicker {
+    font-size: 9px;
+  }
+  .workflow-reel .scene-explanation {
+    font-size: 12px;
+    min-height: 80px;
+  }
+  .workflow-reel.expanded .stage-list {
+    grid-template-columns: 1fr 1fr;
+  }
+  .workflow-reel .scene-footer {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .workflow-reel .scene-disclaimer {
+    max-width: none;
+    font-size: 9px;
+  }
+  .workflow-reel .scene-controls {
+    margin-left: auto;
+  }
+  .image-caption {
+    font-size: 8px;
+    padding: 7px;
+  }
+  .spectral-chips span {
+    font-size: 9px;
+    padding: 7px 5px;
+  }
+  .index-equation {
+    font-size: 10px;
+    gap: 4px;
+  }
+}
+@media (max-width: 370px) {
+  .workflow-reel .reel-canvas,
+  .workflow-reel.expanded .reel-canvas {
+    gap: 12px;
+    min-height: 250px;
+  }
+  .workflow-reel .reel-panel strong {
+    font-size: 16px;
+  }
+  .reel-panel {
+    gap: 10px;
+  }
+  .reel-panel small {
+    font-size: 9px;
+  }
+  .workflow-reel .scene-current p {
+    font-size: 13px;
+  }
+  .workflow-reel .scene-explanation {
+    min-height: 100px;
+  }
+  .index-equation {
+    font-size: 9px;
+  }
+  .process-chain {
+    font-size: 9px;
+  }
+  .channel-stack span {
+    font-size: 10px;
+  }
+}
+/* Phones get a larger canopy and readable technical labels instead of a miniature desktop shot. */
+@media (max-width: 600px) {
+  .workflow-reel .reel-canvas,
+  .workflow-reel.expanded .reel-canvas {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    min-height: 0;
+  }
+  .workflow-reel .reel-view {
+    width: 100%;
+    max-width: 280px;
+    margin-inline: auto;
+  }
+  .workflow-reel .reel-details {
+    min-height: 245px;
+    width: 100%;
+    max-width: 280px;
+    margin-inline: auto;
+  }
+  .workflow-reel .reel-panel {
+    gap: 12px;
+  }
+  .workflow-reel .reel-panel strong,
+  .workflow-reel.expanded .reel-panel strong {
+    font-size: 24px;
+  }
+  .workflow-reel .reel-panel small,
+  .workflow-reel.expanded .reel-panel small {
+    font-size: 11px;
+  }
+  .workflow-reel .reel-kicker,
+  .workflow-reel.expanded .reel-kicker {
+    font-size: 11px;
+  }
+  .workflow-reel .image-caption {
+    font-size: 10px;
+  }
+  .spectral-chips span {
+    font-size: 11px;
+    padding: 9px 10px;
+  }
+  .index-equation {
+    font-size: 12px;
+  }
+  .process-chain {
+    font-size: 11px;
+  }
+  .channel-stack {
+    max-width: 220px;
+  }
+  .channel-stack span {
+    font-size: 12px;
+  }
+  .patch-numbers {
+    max-width: 190px;
+  }
+  .patch-numbers span {
+    font-size: 11px;
+    padding: 8px;
+  }
+  .model-flow,
+  .inference-flow,
+  .comparison-lines,
+  .evaluation-groups {
+    font-size: 11px;
+  }
+  .workflow-reel .scene-explanation {
+    min-height: 100px;
+  }
+}

@@ -1,0 +1,58 @@
+name: Publish portfolio to GitHub Pages
+
+# Publishing is deliberately manual. Merely pushing this source does not deploy it.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - run: npm ci
+      - name: Configure the deployment paths
+        env:
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
+          REPOSITORY_OWNER: ${{ github.repository_owner }}
+          CUSTOM_SITE: ${{ vars.PORTFOLIO_SITE }}
+          CUSTOM_BASE: ${{ vars.PORTFOLIO_BASE }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { appendFileSync } from 'node:fs';
+          const owner = process.env.REPOSITORY_OWNER;
+          const repo = process.env.REPOSITORY_NAME;
+          const userSite = repo.toLowerCase() === `${owner.toLowerCase()}.github.io`;
+          const base = process.env.CUSTOM_BASE || (userSite ? '/' : `/${repo}/`);
+          const site = process.env.CUSTOM_SITE || `https://${owner}.github.io`;
+          appendFileSync(process.env.GITHUB_ENV, `PORTFOLIO_BASE=${base}\nPORTFOLIO_SITE=${site}\n`);
+          NODE
+      - run: npm run check
+      - run: npm run build
+      - run: npm run verify
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v5

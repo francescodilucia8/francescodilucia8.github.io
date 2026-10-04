@@ -1,0 +1,24 @@
+---
+const { id = 'field', class: className = '' } = Astro.props;
+const trees = Array.from({ length: 42 }, (_, i) => ({ x: 36 + (i % 7) * 41, y: 38 + Math.floor(i / 7) * 38, r: 10 + (i * 7 % 6) }));
+---
+<svg class:list={['field-glyph', className]} viewBox="0 0 420 400" fill="none" aria-hidden="true">
+  <defs>
+    <pattern id={`${id}-grid`} width="25" height="25" patternUnits="userSpaceOnUse"><path d="M25 0H0v25" stroke="currentColor" stroke-opacity=".1" /></pattern>
+    <linearGradient id={`${id}-wash`} x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d0ddb7" /><stop offset="1" stop-color="#85a27a" /></linearGradient>
+  </defs>
+  <circle cx="210" cy="200" r="181" stroke="currentColor" stroke-opacity=".14" />
+  <circle cx="210" cy="200" r="155" stroke="currentColor" stroke-opacity=".14" stroke-dasharray="2 7" />
+  <path d="M210 4v38m0 316v38M12 200h38m320 0h38" stroke="currentColor" stroke-opacity=".35" />
+  <g transform="translate(46 112) matrix(.91 .24 -.43 .65 58 0)">
+    <rect x="0" y="70" width="320" height="280" rx="3" fill="#b38e67" fill-opacity=".24" stroke="#947753" />
+    <rect x="0" y="36" width="320" height="280" rx="3" fill="#b8be83" fill-opacity=".65" stroke="#7f8c59" />
+    <rect width="320" height="280" rx="3" fill={`url(#${id}-wash)`} stroke="#476f4c" />
+    <rect width="320" height="280" fill={`url(#${id}-grid)`} />
+    {trees.map(t => <g><circle cx={t.x} cy={t.y} r={t.r+3} fill="#4f7451" fill-opacity=".15" /><circle cx={t.x-2} cy={t.y-2} r={t.r} fill="#3c6548" fill-opacity=".75" /><circle cx={t.x-4} cy={t.y-5} r={t.r*.52} fill="#87a46c" fill-opacity=".85" /></g>)}
+    <rect x="96" y="79" width="130" height="120" stroke="#eef2d9" stroke-width="2" stroke-dasharray="7 4" />
+    <path d="M161 71v136m-74-68h149" stroke="#eef2d9" stroke-opacity=".75" />
+  </g>
+  <path d="m295 125 50-40h31M123 294l-45 39H36" stroke="currentColor" stroke-opacity=".4" />
+  <circle cx="295" cy="125" r="3" fill="currentColor" /><circle cx="123" cy="294" r="3" fill="currentColor" />
+</svg>

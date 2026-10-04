@@ -1,0 +1,17 @@
+references/
+docs/portfolio/
+START_HERE.md
+CODEX_PROMPT.md
+AGENTS.md
+build-notes/
+agents/
+.agents/
+node_modules/
+.npm-cache/
+.astro/
+dist/
+dist-base/
+.env
+.env.*
+!.env.example
+*.log

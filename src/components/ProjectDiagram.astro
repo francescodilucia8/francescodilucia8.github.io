@@ -1,0 +1,13 @@
+---
+const { kind } = Astro.props;
+---
+{kind==='local-ai' ? <div class="project-diagram local-diagram">
+  <div class="diagram-top mono"><span>DOCUMENT → CONTEXT</span><span>02 / LOCAL AI</span></div>
+  <div class="document-flow" aria-hidden="true"><div class="paper-stack"><i></i><i></i><div><span></span><span></span><span></span><span></span><span></span></div></div><span class="flow-plus">→</span><div class="chunk-stack"><i></i><i></i><i></i><i></i></div><span class="flow-plus">→</span><div class="context-orbit"><span>context</span></div></div>
+  <ol class="diagram-labels"><li>Extract & chunk</li><li>Embed & retrieve</li><li>Answer with sources</li></ol>
+  <p class="diagram-caption">Conceptual retrieval workflow</p>
+</div> : <div class="project-diagram agent-diagram">
+  <div class="diagram-top mono"><span>TOOLS WITH BOUNDARIES</span><span>03 / AGENT LAB</span></div>
+  <div class="boundary-flow"><div class="budget-rail mono"><span>Tokens</span><span>Time</span><span>Tools</span></div><div class="agent-core"><span class="mono">COORDINATOR</span><span class="agent-line"></span><div class="worker-box"><span>Offline code worker</span><small>No network · temporary workspace</small></div><span class="agent-line"></span><span class="review-node">Human review → export</span></div></div>
+  <p class="diagram-caption">Control-flow schematic · one mode per run</p>
+</div>}
