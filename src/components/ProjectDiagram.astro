@@ -1,13 +1,15 @@
 ---
-const { kind } = Astro.props;
+import {translate,type Language} from '../lib/i18n';
+const {kind,language='en'} = Astro.props as {kind:string;language?:Language};
+const t=(text:string)=>translate(language,text);
 ---
 {kind==='local-ai' ? <div class="project-diagram local-diagram">
-  <div class="diagram-top mono"><span>DOCUMENT → CONTEXT</span><span>02 / LOCAL AI</span></div>
-  <div class="document-flow" aria-hidden="true"><div class="paper-stack"><i></i><i></i><div><span></span><span></span><span></span><span></span><span></span></div></div><span class="flow-plus">→</span><div class="chunk-stack"><i></i><i></i><i></i><i></i></div><span class="flow-plus">→</span><div class="context-orbit"><span>context</span></div></div>
-  <ol class="diagram-labels"><li>Extract & chunk</li><li>Embed & retrieve</li><li>Answer with sources</li></ol>
-  <p class="diagram-caption">Conceptual retrieval workflow</p>
+  <div class="diagram-top mono"><span>{t("DOCUMENT → CONTEXT")}</span><span>{t("02 / LOCAL AI")}</span></div>
+  <div class="document-flow" aria-hidden="true"><div class="paper-stack"><i></i><i></i><div><span></span><span></span><span></span><span></span><span></span></div></div><span class="flow-plus">{t("→")}</span><div class="chunk-stack"><i></i><i></i><i></i><i></i></div><span class="flow-plus">{t("→")}</span><div class="context-orbit"><span>{t("context")}</span></div></div>
+  <ol class="diagram-labels"><li>{t("Extract & chunk")}</li><li>{t("Embed & retrieve")}</li><li>{t("Answer with sources")}</li></ol>
+  <p class="diagram-caption">{t("Conceptual retrieval workflow")}</p>
 </div> : <div class="project-diagram agent-diagram">
-  <div class="diagram-top mono"><span>TOOLS WITH BOUNDARIES</span><span>03 / AGENT LAB</span></div>
-  <div class="boundary-flow"><div class="budget-rail mono"><span>Tokens</span><span>Time</span><span>Tools</span></div><div class="agent-core"><span class="mono">COORDINATOR</span><span class="agent-line"></span><div class="worker-box"><span>Offline code worker</span><small>No network · temporary workspace</small></div><span class="agent-line"></span><span class="review-node">Human review → export</span></div></div>
-  <p class="diagram-caption">Control-flow schematic · one mode per run</p>
+  <div class="diagram-top mono"><span>{t("TOOLS WITH BOUNDARIES")}</span><span>{t("03 / AGENT LAB")}</span></div>
+  <div class="boundary-flow"><div class="budget-rail mono"><span>{t("Tokens")}</span><span>{t("Time")}</span><span>{t("Tools")}</span></div><div class="agent-core"><span class="mono">{t("COORDINATOR")}</span><span class="agent-line"></span><div class="worker-box"><span>{t("Offline code worker")}</span><small>{t("No network · temporary workspace")}</small></div><span class="agent-line"></span><span class="review-node">{t("Human review → export")}</span></div></div>
+  <p class="diagram-caption">{t("Control-flow schematic · one mode per run")}</p>
 </div>}

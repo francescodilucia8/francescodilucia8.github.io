@@ -1,18 +1,7 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Arrow from '../../components/Arrow.astro';
-import ThesisScene from '../../components/ThesisScene.astro';
-import ProjectDiagram from '../../components/ProjectDiagram.astro';
-import { projects } from '../../data/portfolio';
-import { path } from '../../lib/paths';
-export function getStaticPaths() { return projects.map(project=>({params:{slug:project.slug},props:{project}})); }
-const { project }=Astro.props;
-const next=projects[(projects.findIndex(p=>p.slug===project.slug)+1)%projects.length];
+import CaseStudyPage from '../../components/CaseStudyPage.astro';
+import { localizedProjects } from '../../lib/i18n';
+export function getStaticPaths() { return localizedProjects('en').map(project=>({params:{slug:project.slug},props:{project}})); }
+const {project} = Astro.props;
 ---
-<Layout title={`${project.shortTitle} — Francesco Di Lucia`} description={project.summary}>
-  <div class="wrap case-study"><a class="back-link mono" href={path('#work')}>← ALL WORK</a><div class="case-hero"><span class="eyebrow mono">{project.number} / {project.category}</span><h1>{project.title}</h1><p class="case-summary">{project.summary}</p><div class="case-meta"><div><span class="mono">CONTEXT & ROLE</span><p>{project.role}</p></div><div><span class="mono">TOOLS</span><ul class="stack">{project.stack.map(s=><li>{s}</li>)}</ul></div><a class="case-link" href={project.repo}>View source <Arrow diagonal /></a></div></div>
-  {project.slug==='multispectral-thesis' ? <ThesisScene expanded id="expanded-thesis" /> : <ProjectDiagram kind={project.slug} />}
-  <div class="case-body"><aside><span class="eyebrow mono">THE QUESTION</span><p>{project.question}</p><a class="case-link" href={project.repo}>Repository <Arrow diagonal /></a></aside><div class="case-narrative">{project.sections.map((section,i)=><section><span class="eyebrow mono">{String(i+1).padStart(2,'0')} / {i===project.sections.length-1?'REFLECTION':'PROCESS'}</span><h2>{section.title}</h2>{section.paragraphs.map(p=><p>{p}</p>)}</section>)}
-    {project.slug==='multispectral-thesis' && <section class="results"><span class="eyebrow mono">REPORTED THESIS RESULTS</span><h2>Two configurations, two trade-offs.</h2><div class="table-scroll"><table><caption>Held-out patch classification · defense presentation, final comparison</caption><thead><tr><th scope="col">Configuration</th><th scope="col">Accuracy</th><th scope="col">F1</th></tr></thead><tbody><tr><th scope="row">ResNet18 · VI only · square crop</th><td>65.46%</td><td>72.43%</td></tr><tr><th scope="row">Deeper residual-SE · MS + VI · square crop</th><td>68.10%</td><td>71.53%</td></tr></tbody></table></div><p class="result-note">Reported in my thesis defense (final results comparison, slide 27). The best F1 and best accuracy come from different models. These are dataset-specific experimental results; they have not been independently reproduced for this portfolio.</p></section>}
-  </div></div><div class="next-project"><span class="eyebrow mono">NEXT EXPLORATION</span><a href={path(`work/${next.slug}/`)}>{next.shortTitle}<Arrow diagonal /></a></div></div>
-</Layout>
+<CaseStudyPage project={project} language="en" />

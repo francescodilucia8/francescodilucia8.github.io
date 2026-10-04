@@ -77,6 +77,20 @@ try {
     assert.equal(await page.locator("h1").count(), 1);
     assert.ok((await page.locator('a[href^="/portfolio-test/"]').count()) > 0);
   }
+  const italianContext = await browser.newContext({ locale: "it-IT" });
+  const italianPage = await italianContext.newPage();
+  await italianPage.goto(origin);
+  await italianPage.waitForURL(origin + "it/");
+  for (const route of ["", "work/multispectral-thesis/", "work/local-ai/", "work/bounded-agents/", "404/"]) {
+    assert.equal((await italianPage.goto(origin + "it/" + route)).status(), 200);
+    await italianPage.reload();
+    assert.equal(await italianPage.locator("html").getAttribute("lang"), "it");
+    assert.equal(await italianPage.locator("h1").count(), 1);
+  }
+  await italianPage.goto(origin + "it/work/local-ai/#main");
+  await italianPage.getByRole("link", { name: "Passa all’inglese" }).click();
+  await italianPage.waitForURL(origin + "work/local-ai/?lang=en#main");
+  await italianContext.close();
   await page.goto(origin);
   await page.locator(".portrait-block").scrollIntoViewIfNeeded();
   await page.waitForFunction(() =>
@@ -121,7 +135,7 @@ try {
       {
         status: "passed",
         base,
-        routes: 4,
+        routes: 10,
         browser: browser.version(),
         method:
           "Plain static file server; desktop, 320px, direct reloads, local assets, animation import, anchors, menu, 404",

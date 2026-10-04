@@ -1,13 +1,15 @@
 ---
-import { thesisBeats } from '../data/portfolio';
+import {localizedBeats,translate,type Language} from '../lib/i18n';
 import { path } from '../lib/paths';
 import '../styles/thesis.css';
-const { expanded = false } = Astro.props;
+const {expanded=false,language='en'} = Astro.props as {expanded?:boolean;language?:Language};
+const t=(text:string)=>translate(language,text);
+const thesisBeats=localizedBeats(language);
 const orchard = path('images/hazelnut-orchard.webp');
 const canopy = path('images/hazelnut-canopy.webp');
 ---
-<div class:list={['thesis-scene', 'workflow-reel', { expanded }]} data-thesis data-stage="0">
-  <div class="scene-top"><span class="mono">FIELD STUDY / MULTISPECTRAL</span><span class="scene-notation" aria-hidden="true">λ → f(x)</span></div>
+<div class:list={['thesis-scene', 'workflow-reel', { expanded }]} data-thesis data-stage="0" data-language={language} data-beats={JSON.stringify(thesisBeats)}>
+  <div class="scene-top"><span class="mono">{t("FIELD STUDY / MULTISPECTRAL")}</span><span class="scene-notation" aria-hidden="true">{t("λ → f(x)")}</span></div>
   <div class="reel-canvas" aria-hidden="true">
     <div class="reel-view">
       <div class="orchard-camera"><img src={orchard} width="960" height="960" alt="" loading="lazy" decoding="async" /></div>
@@ -16,23 +18,23 @@ const canopy = path('images/hazelnut-canopy.webp');
       <svg class="vegetation-overlay" viewBox="0 0 100 100"><path d="M17 44 Q10 40 16 36 L21 35 Q16 29 23 27 L28 28 Q27 21 34 23 L35 18 Q42 14 44 21 Q48 14 53 19 L56 15 Q63 15 64 23 Q70 19 73 25 L72 29 Q82 26 81 34 L86 35 Q90 41 83 44 Q91 49 85 53 L87 59 Q89 65 81 64 L79 71 Q76 75 70 72 Q73 82 65 80 L60 86 Q53 90 50 83 Q43 89 40 81 L33 84 Q26 84 28 76 Q21 79 20 72 L16 68 Q10 62 17 60 L12 55 Q8 49 17 48Z" fill="currentColor"/><path d="M30 40q5-8 8-1t-8 1 M60 66q7-7 9 1t-9-1" fill="#233f2c"/></svg>
       <div class="roi-square"></div>
       <div class="canopy-patches">{Array.from({length:9},(_,i)=><div class="canopy-patch" style={`--col:${i%3};--row:${Math.floor(i/3)};background-image:url('${canopy}');background-position:${(i%3)*50}% ${Math.floor(i/3)*50}%`}></div>)}</div>
-      <div class="channel-overlay"></div><div class="image-caption mono">Illustrative hazelnut canopy</div>
+      <div class="channel-overlay"></div><div class="image-caption mono">{t("Illustrative hazelnut canopy")}</div>
     </div>
     <div class="reel-details">
-      <div class="reel-panel" data-panel="0"><span class="reel-kicker">UAV acquisition</span><strong>One canopy.<br />Several views.</strong><div class="spectral-chips">{['B','G','R','RE','NIR'].map((band,i)=><span style={`--band:${i}`}>{band}</span>)}</div><small>5 spectral bands<br />+ separate RGB reference</small></div>
-      <div class="reel-panel" data-panel="1"><span class="reel-kicker">Spatial registration</span><strong>Shared pixels.<br />NIR reference.</strong><div class="registration-diagram"><i></i><i></i><i></i><b>+</b></div><small>Optical-center offsets<br />→ ECC translation refinement</small></div>
-      <div class="reel-panel" data-panel="2"><span class="reel-kicker">Region preparation</span><div class="index-equation">NDVI = <span>(NIR − R)<br /><em>(NIR + R)</em></span></div><div class="process-chain"><span>Normalize</span><span>Threshold → clean</span><span>Select central region</span></div><small>Mask / square-crop variants<br />Imperfect boundaries</small></div>
-      <div class="reel-panel" data-panel="3"><span class="reel-kicker">Patch extraction</span><strong>A canopy becomes<br />nine patches.</strong><div class="patch-numbers">{Array.from({length:9},(_,i)=><span>{Math.floor(i/3)+1}.{i%3+1}</span>)}</div><small>3 × 3 grid<br />Resize each to 224 × 224 px</small></div>
-      <div class="reel-panel" data-panel="4"><span class="reel-kicker">Per-patch features</span><div class="channel-stack">{['GNDVI','GCI','NDREI','NRI','GI'].map((s,i)=><span style={`--channel:${i}`}>{s}</span>)}</div><small>Raw bands / indices<br />Optional mask channel<br />Compared across experiments</small></div>
-      <div class="reel-panel" data-panel="5"><span class="reel-kicker">Offline training</span><div class="model-flow"><span>Training groups</span><i>↓ fit</i><span>Validation groups</span><i>↓ select</i><b>Trained model</b></div><small>Group by field + plant<br />Training-only channel statistics</small></div>
-      <div class="reel-panel" data-panel="6"><span class="reel-kicker">Patch inference</span><div class="inference-flow"><span>Prepared patch</span><div class="signal-rail"><i></i></div><b>Frozen classifier</b><div class="signal-rail"><i></i></div><span>Patch prediction</span></div><small>Weights stay fixed<br />No whole-plant diagnosis</small></div>
-      <div class="reel-panel" data-panel="7"><span class="reel-kicker">Held-out evaluation</span><div class="evaluation-groups"><span>Train</span><span>Val</span><b>Test</b></div><div class="comparison-lines"><span>Test predictions</span><i>↕ compare</i><span>Reference labels</span></div><small>Separate plant groups<br />Inspect errors, report metrics</small></div>
+      <div class="reel-panel" data-panel="0"><span class="reel-kicker">{t("UAV acquisition")}</span><strong>{t("One canopy.")}<br />{t("Several views.")}</strong><div class="spectral-chips">{['B','G','R','RE','NIR'].map((band,i)=><span style={`--band:${i}`}>{band}</span>)}</div><small>{t("5 spectral bands")}<br />{t("+ separate RGB reference")}</small></div>
+      <div class="reel-panel" data-panel="1"><span class="reel-kicker">{t("Spatial registration")}</span><strong>{t("Shared pixels.")}<br />{t("NIR reference.")}</strong><div class="registration-diagram"><i></i><i></i><i></i><b>{t("+")}</b></div><small>{t("Optical-center offsets")}<br />{t("→ ECC translation refinement")}</small></div>
+      <div class="reel-panel" data-panel="2"><span class="reel-kicker">{t("Region preparation")}</span><div class="index-equation">{t("NDVI =")} <span>{t("(NIR − R)")}<br /><em>{t("(NIR + R)")}</em></span></div><div class="process-chain"><span>{t("Normalize")}</span><span>{t("Threshold → clean")}</span><span>{t("Select central region")}</span></div><small>{t("Mask / square-crop variants")}<br />{t("Imperfect boundaries")}</small></div>
+      <div class="reel-panel" data-panel="3"><span class="reel-kicker">{t("Patch extraction")}</span><strong>{t("A canopy becomes")}<br />{t("nine patches.")}</strong><div class="patch-numbers">{Array.from({length:9},(_,i)=><span>{Math.floor(i/3)+1}.{i%3+1}</span>)}</div><small>{t("3 × 3 grid")}<br />{t("Resize each to 224 × 224 px")}</small></div>
+      <div class="reel-panel" data-panel="4"><span class="reel-kicker">{t("Per-patch features")}</span><div class="channel-stack">{['GNDVI','GCI','NDREI','NRI','GI'].map((s,i)=><span style={`--channel:${i}`}>{s}</span>)}</div><small>{t("Raw bands / indices")}<br />{t("Optional mask channel")}<br />{t("Compared across experiments")}</small></div>
+      <div class="reel-panel" data-panel="5"><span class="reel-kicker">{t("Offline training")}</span><div class="model-flow"><span>{t("Training groups")}</span><i>{t("↓ fit")}</i><span>{t("Validation groups")}</span><i>{t("↓ select")}</i><b>{t("Trained model")}</b></div><small>{t("Group by field + plant")}<br />{t("Training-only channel statistics")}</small></div>
+      <div class="reel-panel" data-panel="6"><span class="reel-kicker">{t("Patch inference")}</span><div class="inference-flow"><span>{t("Prepared patch")}</span><div class="signal-rail"><i></i></div><b>{t("Frozen classifier")}</b><div class="signal-rail"><i></i></div><span>{t("Patch prediction")}</span></div><small>{t("Weights stay fixed")}<br />{t("No whole-plant diagnosis")}</small></div>
+      <div class="reel-panel" data-panel="7"><span class="reel-kicker">{t("Held-out evaluation")}</span><div class="evaluation-groups"><span>{t("Train")}</span><span>{t("Val")}</span><b>{t("Test")}</b></div><div class="comparison-lines"><span>{t("Test predictions")}</span><i>{t("↕ compare")}</i><span>{t("Reference labels")}</span></div><small>{t("Separate plant groups")}<br />{t("Inspect errors, report metrics")}</small></div>
     </div>
   </div>
-  <div class="scene-current"><span class="scene-count mono">01 / 08</span><p class="stage-label">Spectral inputs</p><span class="scene-marker" aria-hidden="true">+</span></div>
+  <div class="scene-current"><span class="scene-count mono">{t("01 / 08")}</span><p class="stage-label">{t("Spectral inputs")}</p><span class="scene-marker" aria-hidden="true">{t("+")}</span></div>
   <p class="scene-explanation">{thesisBeats[0].description}</p>
   <div class="scene-track" aria-hidden="true"><span></span></div>
-  <div class="scene-footer"><span class="scene-disclaimer">Synthetic imagery · schematic processing<br />19-second workflow · experimental variants</span><div class="scene-controls" hidden><button type="button" data-play aria-label="Play thesis animation">Play</button><button type="button" data-replay aria-label="Replay thesis animation">Replay ↺</button></div></div>
+  <div class="scene-footer"><span class="scene-disclaimer">{t("Synthetic imagery · schematic processing")}<br />{t("19-second workflow · experimental variants")}</span><div class="scene-controls" hidden><button type="button" data-play aria-label={t("Play thesis animation")}>{t("Play")}</button><button type="button" data-replay aria-label={t("Replay thesis animation")}>{t("Replay ↺")}</button></div></div>
   {expanded && <ol class="stage-list">{thesisBeats.map((b,i)=><li><button class="stage-select" type="button" data-seek={i} hidden>{String(i+1).padStart(2,'0')} / {b.label}</button><span class="stage-static">{String(i+1).padStart(2,'0')} / {b.label}</span><p>{b.description}</p></li>)}</ol>}
 </div>
 <script>import '../scripts/thesis';</script>

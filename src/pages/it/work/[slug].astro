@@ -1,0 +1,7 @@
+---
+import CaseStudyPage from '../../../components/CaseStudyPage.astro';
+import { localizedProjects } from '../../../lib/i18n';
+export function getStaticPaths() { return localizedProjects('it').map(project=>({params:{slug:project.slug},props:{project}})); }
+const {project} = Astro.props;
+---
+<CaseStudyPage project={project} language="it" />

@@ -423,6 +423,8 @@ button[hidden],
   font-family: var(--serif);
   font-style: italic;
   font-size: 21px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .scene-canvas {
   display: grid;
@@ -2244,4 +2246,47 @@ th:first-child {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
+}
+
+/* Keep the language choice available beside the mobile disclosure. */
+.language-switch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.language-switch:hover {
+  background: var(--sage);
+}
+.site-header nav {
+  margin-left: auto;
+}
+@media (max-width: 700px) {
+  .site-header {
+    gap: 8px;
+  }
+  .site-header .wordmark {
+    order: 0;
+    gap: 8px;
+  }
+  .language-switch {
+    order: 1;
+    margin-left: auto;
+  }
+  .site-header.nav-enhanced .nav-toggle {
+    order: 2;
+    margin-left: 0;
+    gap: 8px;
+  }
+  .site-header nav {
+    order: 3;
+    margin-left: 0;
+  }
+  .hero-heading h1 {
+    overflow-wrap: normal;
+  }
 }

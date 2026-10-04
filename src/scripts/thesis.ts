@@ -1,6 +1,9 @@
 import { thesisBeats, thesisDuration } from "../data/portfolio";
 
 async function setup(scene: HTMLElement) {
+  const beats: { label: string; description: string; time: number }[] =
+    JSON.parse(scene.dataset.beats!);
+  const italian = scene.dataset.language === "it";
   const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const element = (selector: string) =>
     scene.querySelector<HTMLElement>(selector)!;
@@ -50,8 +53,8 @@ async function setup(scene: HTMLElement) {
   const setStage = (index: number) => {
     selected = index;
     scene.dataset.stage = String(index);
-    label.textContent = thesisBeats[index].label;
-    explanation.textContent = thesisBeats[index].description;
+    label.textContent = beats[index].label;
+    explanation.textContent = beats[index].description;
     count.textContent = `${String(index + 1).padStart(2, "0")} / ${String(thesisBeats.length).padStart(2, "0")}`;
     scene
       .querySelectorAll<HTMLButtonElement>("[data-seek]")
@@ -127,24 +130,38 @@ async function setup(scene: HTMLElement) {
       !timeline.paused() &&
       timeline.progress() < 1;
     play.textContent = motion.matches
-      ? "Next stage"
+      ? italian
+        ? "Fase successiva"
+        : "Next stage"
       : running
-        ? "Pause"
-        : "Play";
+        ? italian
+          ? "Pausa"
+          : "Pause"
+        : italian
+          ? "Avvia"
+          : "Play";
     play.setAttribute(
       "aria-label",
       motion.matches
-        ? "Show next thesis stage"
+        ? italian
+          ? "Mostra la fase successiva della tesi"
+          : "Show next thesis stage"
         : running
-          ? "Pause thesis animation"
-          : "Play thesis animation",
+          ? italian
+            ? "Metti in pausa l’animazione della tesi"
+            : "Pause thesis animation"
+          : italian
+            ? "Avvia l’animazione della tesi"
+            : "Play thesis animation",
     );
     scene.dataset.playing = String(running);
   };
   const select = (index: number) => {
     const time = thesisBeats[index].time + 1.8;
-    timeline?.pause(time);
-    clock.time = time;
+    if (timeline) {
+      timeline.pause(time);
+      clock.time = time;
+    }
     paint(time, true);
     updateButton();
   };
@@ -202,8 +219,10 @@ async function setup(scene: HTMLElement) {
     button.hidden = false;
     button.addEventListener("click", async () => {
       userPaused = true;
+      const requested = Number(button.dataset.seek);
+      select(requested);
       await load();
-      select(Number(button.dataset.seek));
+      if (selected === requested) select(requested);
     });
   });
   scene.classList.add("enhanced");

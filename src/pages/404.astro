@@ -1,5 +1,4 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { path } from '../lib/paths';
+import NotFoundPage from "../components/NotFoundPage.astro";
 ---
-<Layout title="Page not found — Francesco Di Lucia"><section class="not-found wrap"><span class="eyebrow mono">404 / OUTSIDE THE MAP</span><h1>A missing<br /><em>connection.</em></h1><p>This page could not be found. Let’s get you back to the work.</p><a class="primary-link" href={path()}>Back to the portfolio <span aria-hidden="true">↗</span></a></section></Layout>
+<NotFoundPage language="en" />

@@ -16,8 +16,8 @@ async function files(root) {
 let failures = [];
 const all = await files(dir);
 const html = all.filter((f) => f.endsWith(".html"));
-if (html.length !== 5)
-  failures.push(`Expected five static pages, found ${html.length}`);
+if (html.length !== 10)
+  failures.push(`Expected ten localized static pages, found ${html.length}`);
 let js = 0,
   gzip = 0,
   images = 0,
@@ -39,7 +39,7 @@ for (const f of all) {
 for (const f of html) {
   const text = await readFile(f, "utf8");
   if (
-    /TODO|PLACEHOLDER|\bs\d{6}\b|Relative Optical Center X\/Y.*speaker/i.test(
+    /\bTODO\b|\bPLACEHOLDER\b|\bs\d{6}\b|Relative Optical Center X\/Y.*speaker/i.test(
       text,
     )
   )

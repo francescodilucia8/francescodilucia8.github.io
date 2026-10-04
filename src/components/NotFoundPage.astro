@@ -1,0 +1,8 @@
+---
+import Layout from '../layouts/Layout.astro';
+import {localizedPath,translate,type Language} from '../lib/i18n';
+const {language = 'en'} = Astro.props as {language?:Language};
+const t = (text:string)=>translate(language,text);
+const path = (value='')=>localizedPath(language,value);
+---
+<Layout language={language} title={t("Page not found — Francesco Di Lucia")}><section class="not-found wrap"><span class="eyebrow mono">{t("404 / OUTSIDE THE MAP")}</span><h1>{t("A missing")}<br /><em>{t("connection.")}</em></h1><p>{t("This page could not be found. Let’s get you back to the work.")}</p><a class="primary-link" href={path()}>{t("Back to the portfolio")} <span aria-hidden="true">{t("↗")}</span></a></section></Layout>

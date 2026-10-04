@@ -4,42 +4,68 @@ import '@fontsource/dm-mono/400.css';
 import '../styles/global.css';
 import { profile } from '../data/portfolio';
 import { path } from '../lib/paths';
+import {translate,localizedPath,type Language} from '../lib/i18n';
 import Arrow from '../components/Arrow.astro';
-interface Props { title?: string; description?: string; home?: boolean; }
-const { title = 'Francesco Di Lucia — AI & software engineer', description = 'I build machine-learning systems and the software around them. Explore my work in multispectral imagery, local AI and bounded agent runtimes.' } = Astro.props;
-const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+interface Props { title?:string;description?:string;home?:boolean;language?:Language; }
+const {language='en',title,description}=Astro.props;
+const t=(text:string)=>translate(language,text);
+const pageTitle=title ?? t('Francesco Di Lucia — AI & software engineer');
+const pageDescription=description ?? t('I build machine-learning systems and the software around them. Explore my work in multispectral imagery, local AI and bounded agent runtimes.');
+const base=import.meta.env.BASE_URL.replace(/\/$/,'');
+const route=Astro.url.pathname.slice(base.length).replace(/^\//,'').replace(/^it\//,'');
+const englishHref=localizedPath('en',route==='404/'?'404.html':route);
+const italianHref=localizedPath('it',route==='404.html'?'404/':route);
+const canonical=Astro.site ? new URL(language==='it'?italianHref:englishHref,Astro.site).href : undefined;
+const alternateLanguage=language==='it'?'en':'it';
+const alternateHref=language==='it'?englishHref:italianHref;
+const detectLanguage=['','work/multispectral-thesis/','work/local-ai/','work/bounded-agents/'].includes(route);
 ---
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f5f3eb" /><meta name="description" content={description} />
-    <title>{title}</title><link rel="icon" type="image/svg+xml" href={path('favicon.svg')} />
-    {canonical && <link rel="canonical" href={canonical} />}
-    <meta property="og:title" content={title} /><meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />{canonical && <meta property="og:url" content={canonical} />}
-    {Astro.site && <meta property="og:image" content={new URL(path('social-card.png'), Astro.site).href} />}
-  </head>
-  <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header wrap">
-      <a href={path()} class="wordmark" aria-label="Francesco Di Lucia, home"><span class="monogram" aria-hidden="true">f<span>d</span>l.</span><span>Francesco Di Lucia<span class="wordmark-sub">AI & software engineer</span></span></a>
-      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="main-nav" hidden>Menu <span aria-hidden="true">+</span></button>
-      <nav id="main-nav" aria-label="Main navigation"><a href={path('#work')}>Work</a><a href={path('#about')}>About</a><a href={path('#contact')} class="nav-contact">Let’s talk <Arrow diagonal /></a></nav>
-    </header>
-    <main id="main" tabindex="-1"><slot /></main>
-    <footer class="site-footer wrap"><span>© {new Date().getFullYear()} Francesco Di Lucia</span><span class="footer-note">Built with care. Kept curious.</span><a href={profile.github}>GitHub <Arrow diagonal /></a></footer>
-    <script>
-      const toggle=document.querySelector<HTMLButtonElement>('.nav-toggle')!;
-      const nav=document.querySelector<HTMLElement>('#main-nav')!;
-      const header=document.querySelector<HTMLElement>('.site-header')!;
-      toggle.hidden=false;
-      header.classList.add('nav-enhanced');
-      function close(){toggle.setAttribute('aria-expanded','false');header.classList.remove('nav-open');}
-      toggle.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')==='true';toggle.setAttribute('aria-expanded',String(!open));header.classList.toggle('nav-open',!open);});
-      nav.querySelectorAll('a').forEach(link=>link.addEventListener('click',close));
-      document.addEventListener('keydown',event=>{if(event.key==='Escape'&&toggle.getAttribute('aria-expanded')==='true'){close();toggle.focus();}});
-      window.matchMedia('(min-width: 701px)').addEventListener('change',close);
-    </script>
-  </body>
+<html lang={language}>
+ <head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script is:inline define:vars={{language,englishHref,italianHref,detectLanguage}}>
+   // Runs before content paints. No network, location or analytics are used.
+   if(detectLanguage){
+    let saved;try{saved=localStorage.getItem('portfolio-language');}catch{}
+    const requested=new URLSearchParams(location.search).get('lang');
+    const supported=(navigator.languages || [navigator.language]).map(value=>value.toLowerCase().split('-')[0]).find(value=>value==='it'||value==='en');
+    const preferred=requested==='it'||requested==='en'?requested:saved==='it'||saved==='en'?saved:supported || 'en';
+    if(preferred!==language){location.replace((preferred==='it'?italianHref:englishHref)+location.search+location.hash);}
+   }
+  </script>
+  <meta name="theme-color" content="#f5f3eb" /><meta name="description" content={pageDescription} />
+  <title>{pageTitle}</title><link rel="icon" type="image/svg+xml" href={path('favicon.svg')} />
+  {canonical && <link rel="canonical" href={canonical} />}
+  <link rel="alternate" hreflang="en" href={Astro.site?new URL(englishHref,Astro.site).href:englishHref} />
+  <link rel="alternate" hreflang="it" href={Astro.site?new URL(italianHref,Astro.site).href:italianHref} />
+  <link rel="alternate" hreflang="x-default" href={Astro.site?new URL(englishHref,Astro.site).href:englishHref} />
+  <meta property="og:title" content={pageTitle} /><meta property="og:description" content={pageDescription} />
+  <meta property="og:type" content="website" /><meta property="og:locale" content={language==='it'?'it_IT':'en_US'} />
+  {canonical && <meta property="og:url" content={canonical} />}
+  {Astro.site && <meta property="og:image" content={new URL(path('social-card.png'),Astro.site).href} />}
+ </head>
+ <body>
+  <a class="skip-link" href="#main">{t('Skip to content')}</a>
+  <header class="site-header wrap">
+   <a href={localizedPath(language)} class="wordmark" aria-label={t('Francesco Di Lucia, home')}><span class="monogram" aria-hidden="true">f<span>d</span>l.</span><span>Francesco Di Lucia<span class="wordmark-sub">{t('AI & software engineer')}</span></span></a>
+   <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="main-nav" hidden>Menu <span aria-hidden="true">+</span></button>
+   <nav id="main-nav" aria-label={t('Main navigation')}><a href={localizedPath(language,'#work')}>{t('Work')}</a><a href={localizedPath(language,'#about')}>{t('About')}</a><a href={localizedPath(language,'#contact')} class="nav-contact">{t('Let’s talk')} <Arrow diagonal /></a></nav>
+   <a class="language-switch mono" data-language-switch={alternateLanguage} href={alternateHref} lang={alternateLanguage} hreflang={alternateLanguage} aria-label={t(language==='it'?'Switch to English':'Switch to Italian')}><span aria-hidden="true">{alternateLanguage.toUpperCase()}</span></a>
+  </header>
+  <main id="main" tabindex="-1"><slot /></main>
+  <footer class="site-footer wrap"><span>© {new Date().getFullYear()} Francesco Di Lucia</span><span class="footer-note">{t('Built with care. Kept curious.')}</span><a href={profile.github}>GitHub <Arrow diagonal /></a></footer>
+  <script>
+   import '../scripts/language';
+   const toggle=document.querySelector<HTMLButtonElement>('.nav-toggle')!;
+   const nav=document.querySelector<HTMLElement>('#main-nav')!;
+   const header=document.querySelector<HTMLElement>('.site-header')!;
+   toggle.hidden=false;header.classList.add('nav-enhanced');
+   function close(){toggle.setAttribute('aria-expanded','false');header.classList.remove('nav-open');}
+   toggle.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')==='true';toggle.setAttribute('aria-expanded',String(!open));header.classList.toggle('nav-open',!open);});
+   nav.querySelectorAll('a').forEach(link=>link.addEventListener('click',close));
+   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&toggle.getAttribute('aria-expanded')==='true'){close();toggle.focus();}});
+   window.matchMedia('(min-width: 701px)').addEventListener('change',close);
+  </script>
+ </body>
 </html>
