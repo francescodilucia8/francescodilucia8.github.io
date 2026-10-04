@@ -26,7 +26,7 @@ Default development: `http://127.0.0.1:4321/`. Production output: `dist/`. Previ
 - `animation-source/STORYBOARD.md`: storyboard and source map; `ASSET_CREDITS.md` and `licenses/`: asset provenance.
 - `src/components/HomePage.astro` and `CaseStudyPage.astro`: shared localized page templates. `src/pages/` and `src/pages/it/` define both language editions; `src/lib/paths.ts` centralizes base-aware URLs.
 
-The thesis scene has an immediate still, pause/replay, offscreen and hidden-document pausing, and step selectors on the expanded page. Reduced motion uses stills and manual stage changes without loading GSAP. Core content and navigation remain available without JavaScript. All diagrams are explanatory rather than live demos.
+
 
 ## Languages
 
