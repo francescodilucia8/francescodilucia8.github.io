@@ -30,7 +30,7 @@ export const projects: Project[] = [
   {
     slug: "multispectral-thesis",
     number: "01",
-    title: "Reading plant health beyond RGB.",
+    title: "Classifying plant health from multispectral images.",
     shortTitle: "Multispectral plant classification",
     category: "Applied machine learning",
     status: "MSc thesis · DRONUTS",

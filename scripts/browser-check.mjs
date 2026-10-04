@@ -42,7 +42,7 @@ await page.goto(url);
 await page.evaluate(() => document.fonts.ready);
 await check("Desktop home and local assets", async () => {
   await page
-    .getByRole("heading", { name: "From signal to software." })
+    .getByRole("heading", { name: "Before creating the software, I find the pattern in the data" })
     .waitFor();
   assert.equal(await page.locator("#work article").count(), 3);
   assert.equal(

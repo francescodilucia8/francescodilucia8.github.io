@@ -19,22 +19,16 @@ export const italian: Record<string, string> = {
   "Switch to English": "Passa all’inglese",
   "AI / ML & SOFTWARE ENGINEERING": "AI / ML E INGEGNERIA DEL SOFTWARE",
   "Hi, I’m Francesco.": "Ciao, sono Francesco.",
-  "From signal": "Dal segnale",
-  to: "al",
-  "software.": "software.",
-  "A DIFFERENT VIEW OF THE SAME WORLD":
-    "UNO SGUARDO DIVERSO SULLO STESSO MONDO",
-  "I build machine-learning systems and the software around them—from multispectral imagery to local AI tools.":
-    "Sviluppo sistemi di machine learning e il software che li rende utili: dalle immagini multispettrali agli strumenti di AI locale.",
+  "Before creating the software,": "Prima di creare il software,",
+  "I find the pattern in the data": "trovo il pattern nei dati",
+  "I develop and research machine learning systems and algorithms that I then go on to integrate into software applications.":
+    "Sviluppo e ricerco sistemi e algoritmi di machine learning che poi vado ad integrare nelle applicazioni software.",
   "Explore my work": "Scopri i miei progetti",
-  "MODELS. SYSTEMS. THE CONNECTIONS BETWEEN.":
-    "MODELLI. SISTEMI. LE CONNESSIONI TRA LORO.",
   "Scroll to selected work": "Vai ai progetti selezionati",
   "SCROLL TO EXPLORE": "SCORRI PER ESPLORARE",
   "01 / SELECTED WORK": "01 / PROGETTI SELEZIONATI",
-  "Ideas, made tangible.": "Idee che prendono forma.",
-  "A few projects where I’ve turned": "Alcuni progetti in cui ho trasformato",
-  "a question into a working system.": "una domanda in un sistema funzionante.",
+  "From ideas to banging my head against the wall to give them shape":
+    "Dalle idee alle testate al muro per dar loro forma",
   Technologies: "Tecnologie",
   "Explore the study": "Esplora lo studio",
   Read: "Leggi",
@@ -50,10 +44,10 @@ export const italian: Record<string, string> = {
   "Collaborative academic project · my work: backend integration":
     "Progetto accademico di gruppo · il mio contributo: integrazione del backend",
   "02 / HOW I WORK": "02 / COME LAVORO",
-  "The model is": "Il modello è",
-  "part of the system.": "parte del sistema.",
-  "I’m interested in the connections: how data becomes an experiment, how a model becomes an application, and how we check what actually works.":
-    "Mi interessano le connessioni: come i dati diventano un esperimento, come un modello diventa un’applicazione e come verifichiamo ciò che funziona davvero.",
+  "Every problem must be studied to define the requirements, find the model and create the system.":
+    "Ogni problema deve essere studiato per definire i requisiti, trovare il modello e creare il sistema.",
+  "“I know the pieces fit!” Yes, just like the TOOL song: I like patterns, I like experiments, but above all I like finding solutions to problems.":
+    "“I know the pieces fit!” Sì, proprio come la canzone dei TOOL: mi piacciono i pattern, mi piacciono gli esperimenti, ma soprattutto mi piace trovare soluzioni a problemi.",
   "01 / APPLIED ML": "01 / ML APPLICATO",
   "From data to evidence": "Dai dati alle evidenze",
   "Alignment, feature engineering and evaluated models. Grounded in my multispectral thesis and collaborative ML research.":
@@ -66,12 +60,13 @@ export const italian: Record<string, string> = {
   "Pieces that fit together": "Componenti che si integrano",
   "APIs, identity, data and event-driven integration. Clear boundaries between components.":
     "API, identità, dati e integrazione basata su eventi. Responsabilità chiare tra i componenti.",
-  "Francesco outdoors with the mountains behind him":
-    "Francesco all’aperto, con le montagne sullo sfondo",
+  "Francesco presenting his multispectral thesis":
+    "Francesco durante la presentazione della tesi multispettrale",
   "FRANCESCO DI LUCIA / TURIN, ITALY": "FRANCESCO DI LUCIA / TORINO, ITALIA",
   "03 / THE PERSON BEHIND THE WORK": "03 / LA PERSONA DIETRO I PROGETTI",
-  "Curious about": "Curioso di capire",
-  "how it all fits.": "come tutto si collega.",
+  "Always looking for opportunities for growth,":
+    "Sempre alla ricerca di opportunità di crescita,",
+  "both personal and professional": "sia personale che professionale",
   "I’m Francesco, a computer engineer with an MSc from Politecnico di Torino, specializing in AI and Data Analytics. I like working where models meet software: preparing the data, building the application around it, and checking what actually works.":
     "Sono Francesco, ingegnere informatico con una laurea magistrale al Politecnico di Torino, specializzato in AI e Data Analytics. Mi piace lavorare dove i modelli incontrano il software: preparare i dati, costruire l’applicazione che li utilizza e verificare ciò che funziona davvero.",
   "My thesis took me into multispectral imagery and plant health. Other projects have led me to local AI tools, agent runtimes and distributed backends. I’m especially interested in AI connected to the physical world, and in visual explanations that make complex work easier to follow.":
@@ -88,8 +83,8 @@ export const italian: Record<string, string> = {
     "Hai in mente un progetto o un’opportunità?",
   "I’d be happy to talk.": "Ne parlo volentieri.",
   "Say hello": "Scrivimi",
-  "Reading plant health beyond RGB.":
-    "Leggere la salute delle piante oltre l’RGB.",
+  "Classifying plant health from multispectral images.":
+    "Classificare la salute delle piante partendo dalle immagini multispettrali.",
   "Multispectral plant classification":
     "Classificazione multispettrale delle piante",
   "Applied machine learning": "Machine learning applicato",
