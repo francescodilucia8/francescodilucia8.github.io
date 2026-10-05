@@ -31,8 +31,9 @@ const canopy = path('images/hazelnut-canopy.webp');
       <div class="reel-panel" data-panel="7"><span class="reel-kicker">{t("Held-out evaluation")}</span><div class="evaluation-groups"><span>{t("Train")}</span><span>{t("Val")}</span><b>{t("Test")}</b></div><div class="comparison-lines"><span>{t("Test predictions")}</span><i>{t("↕ compare")}</i><span>{t("Reference labels")}</span></div><small>{t("Separate plant groups")}<br />{t("Inspect errors, report metrics")}</small></div>
     </div>
   </div>
+  {!expanded && <div class="scene-views" role="group" aria-label={t("PROCESS")} hidden>{thesisBeats.slice(0,4).map((beat,i)=><button type="button" data-seek={i} aria-pressed={i===0?'true':'false'} aria-describedby="thesis-overview-explanation" hidden><span class="mono">{String(i+1).padStart(2,'0')}</span>{beat.label}</button>)}</div>}
   <div class="scene-current"><span class="scene-count mono">{t("01 / 08")}</span><p class="stage-label">{t("Spectral inputs")}</p><span class="scene-marker" aria-hidden="true">{t("+")}</span></div>
-  <p class="scene-explanation">{thesisBeats[0].description}</p>
+  <p class="scene-explanation" id={expanded ? "thesis-study-explanation" : "thesis-overview-explanation"}>{thesisBeats[0].description}</p>
   <div class="scene-track" aria-hidden="true"><span></span></div>
   <div class="scene-footer"><span class="scene-disclaimer">{t("Synthetic imagery · schematic processing")}<br />{t("19-second workflow · experimental variants")}</span><div class="scene-controls" hidden><button type="button" data-play aria-label={t("Play thesis animation")}>{t("Play")}</button><button type="button" data-replay aria-label={t("Replay thesis animation")}>{t("Replay ↺")}</button></div></div>
   {expanded && <ol class="stage-list">{thesisBeats.map((b,i)=><li><button class="stage-select" type="button" data-seek={i} hidden>{String(i+1).padStart(2,'0')} / {b.label}</button><span class="stage-static">{String(i+1).padStart(2,'0')} / {b.label}</span><p>{b.description}</p></li>)}</ol>}

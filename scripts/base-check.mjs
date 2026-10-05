@@ -18,6 +18,7 @@ const mime = {
   ".png": "image/png",
   ".woff2": "font/woff2",
   ".woff": "font/woff",
+  ".pdf": "application/pdf",
 };
 const server = createServer(async (req, res) => {
   try {
@@ -45,7 +46,7 @@ const server = createServer(async (req, res) => {
     res.end(await readFile(join(root, "404.html")));
   }
 });
-await new Promise((done) => server.listen(4323, "127.0.0.1", done));
+await new Promise((done) => server.listen(0, "127.0.0.1", done));
 const executable = [
   "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
   "C:/Program Files/Google/Chrome/Application/chrome.exe",
@@ -65,7 +66,7 @@ try {
       failures.push(`${r.status()} ${r.url()}`);
   });
   page.on("pageerror", (e) => failures.push(e.message));
-  const origin = "http://127.0.0.1:4323" + base;
+  const origin = `http://127.0.0.1:${server.address().port}${base}`;
   for (const route of [
     "",
     "work/multispectral-thesis/",
@@ -92,6 +93,11 @@ try {
   await italianPage.waitForURL(origin + "work/local-ai/?lang=en#main");
   await italianContext.close();
   await page.goto(origin);
+  assert.equal(await page.locator('a[download][href="/portfolio-test/Francesco-di-Lucia-CV.pdf"]').count(), 2);
+  const cv = await page.request.get(origin + "Francesco-di-Lucia-CV.pdf");
+  assert.equal(cv.status(), 200);
+  assert.equal(cv.headers()["content-type"], "application/pdf");
+  assert.deepEqual(await cv.body(), await readFile("public/Francesco-di-Lucia-CV.pdf"));
   await page.locator(".portrait-block").scrollIntoViewIfNeeded();
   await page.waitForFunction(() =>
     [...document.images].every((i) => i.complete && i.naturalWidth > 0),

@@ -58,8 +58,8 @@ async function setup(scene: HTMLElement) {
     count.textContent = `${String(index + 1).padStart(2, "0")} / ${String(thesisBeats.length).padStart(2, "0")}`;
     scene
       .querySelectorAll<HTMLButtonElement>("[data-seek]")
-      .forEach((button, i) =>
-        button.setAttribute("aria-pressed", String(i === index)),
+      .forEach((button) =>
+        button.setAttribute("aria-pressed", String(Number(button.dataset.seek) === index)),
       );
   };
   // Paint from absolute time, including hidden layers. Seeking never carries old transforms.
@@ -219,6 +219,8 @@ async function setup(scene: HTMLElement) {
     updateButton();
   };
   element(".scene-controls").hidden = false;
+  const views = scene.querySelector<HTMLElement>(".scene-views");
+  if (views) views.hidden = false;
   scene.querySelectorAll<HTMLButtonElement>("[data-seek]").forEach((button) => {
     button.hidden = false;
     button.addEventListener("click", async () => {

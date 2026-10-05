@@ -1,5 +1,6 @@
 /** Italian editorial copy. Keys are the existing English source; names and technical identifiers stay shared. */
 export const italian: Record<string, string> = {
+  "Download CV": "Scarica il CV",
   "Turin, Italy": "Torino, Italia",
   "MSc in Computer Engineering · AI and Data Analytics":
     "Laurea magistrale in Ingegneria Informatica · AI e Data Analytics",
@@ -14,7 +15,6 @@ export const italian: Record<string, string> = {
   Work: "Progetti",
   About: "Chi sono",
   "Let’s talk": "Parliamone",
-  "Built with care. Kept curious.": "Progettato con cura. Con curiosità.",
   "Switch to Italian": "Passa all’italiano",
   "Switch to English": "Passa all’inglese",
   "AI / ML & SOFTWARE ENGINEERING": "AI / ML E INGEGNERIA DEL SOFTWARE",

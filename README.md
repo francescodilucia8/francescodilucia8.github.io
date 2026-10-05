@@ -56,7 +56,7 @@ Remove-Item Env:PORTFOLIO_BASE, Env:PORTFOLIO_OUT_DIR
 
 Stop the existing preview before serving the alternate configuration. `node scripts/base-check.mjs` alternatively tests `dist-base` under `/portfolio-test/` on a temporary plain file server and leaves the root preview untouched.
 
-The final URL enables canonical and Open Graph URLs via `PORTFOLIO_SITE`. Without it, the local build deliberately omits absolute social-image/canonical URLs. Private PDFs, PowerPoint notes and raw datasets are never public assets. There is no public CV download because public-distribution intent was not established.
+The final URL enables canonical and Open Graph URLs via `PORTFOLIO_SITE`. Without it, the local build deliberately omits absolute social-image/canonical URLs. Private references, PowerPoint notes and raw datasets are never public assets. The header and About section offer the reviewed English CV at `public/Francesco-di-Lucia-CV.pdf`; its phone number and unnecessary metadata have been removed, while professional links remain. Download paths respect the deployment base.
 
 ## Verification
 

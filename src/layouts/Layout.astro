@@ -2,10 +2,12 @@
 import '@fontsource-variable/manrope';
 import '@fontsource/dm-mono/400.css';
 import '../styles/global.css';
+import '../styles/editorial.css';
 import { profile } from '../data/portfolio';
 import { path } from '../lib/paths';
 import {translate,localizedPath,type Language} from '../lib/i18n';
 import Arrow from '../components/Arrow.astro';
+import CvDownload from '../components/CvDownload.astro';
 interface Props { title?:string;description?:string;home?:boolean;language?:Language; }
 const {language='en',title,description}=Astro.props;
 const t=(text:string)=>translate(language,text);
@@ -50,11 +52,11 @@ const detectLanguage=['','work/multispectral-thesis/','work/local-ai/','work/bou
   <header class="site-header wrap">
    <a href={localizedPath(language)} class="wordmark" aria-label={t('Francesco Di Lucia, home')}><span class="monogram" aria-hidden="true">f<span>d</span>l.</span><span>Francesco Di Lucia<span class="wordmark-sub">{t('AI & software engineer')}</span></span></a>
    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="main-nav" hidden>Menu <span aria-hidden="true">+</span></button>
-   <nav id="main-nav" aria-label={t('Main navigation')}><a href={localizedPath(language,'#work')}>{t('Work')}</a><a href={localizedPath(language,'#about')}>{t('About')}</a><a href={localizedPath(language,'#contact')} class="nav-contact">{t('Let’s talk')} <Arrow diagonal /></a></nav>
+   <nav id="main-nav" aria-label={t('Main navigation')}><a href={localizedPath(language,'#work')}>{t('Work')}</a><a href={localizedPath(language,'#about')}>{t('About')}</a><a href={localizedPath(language,'#contact')} class="nav-contact">{t('Let’s talk')} <Arrow diagonal /></a><CvDownload language={language} compact /></nav>
    <a class="language-switch mono" data-language-switch={alternateLanguage} href={alternateHref} lang={alternateLanguage} hreflang={alternateLanguage} aria-label={t(language==='it'?'Switch to English':'Switch to Italian')}><span aria-hidden="true">{alternateLanguage.toUpperCase()}</span></a>
   </header>
   <main id="main" tabindex="-1"><slot /></main>
-  <footer class="site-footer wrap"><span>© {new Date().getFullYear()} Francesco Di Lucia</span><span class="footer-note">{t('Built with care. Kept curious.')}</span><a href={profile.github}>GitHub <Arrow diagonal /></a></footer>
+  <footer class="site-footer wrap"><span>© {new Date().getFullYear()} Francesco Di Lucia</span><a href={profile.github}>GitHub <Arrow diagonal /></a></footer>
   <script>
    import '../scripts/language';
    const toggle=document.querySelector<HTMLButtonElement>('.nav-toggle')!;

@@ -15,6 +15,8 @@ async function files(root) {
 }
 let failures = [];
 const all = await files(dir);
+const approvedCv = join(dir, "Francesco-di-Lucia-CV.pdf");
+if (!all.includes(approvedCv)) failures.push("Missing reviewed CV download");
 const html = all.filter((f) => f.endsWith(".html"));
 if (html.length !== 10)
   failures.push(`Expected ten localized static pages, found ${html.length}`);
@@ -31,7 +33,8 @@ for (const f of all) {
   if (/\.(webp|png)$/.test(f)) images += buffer.length;
   if (/\.woff2?$/.test(f)) fonts += buffer.length;
   if (
-    /\.(pdf|pptx|docx|npz|env|map)$/.test(f) ||
+    (/\.pdf$/.test(f) && f !== approvedCv) ||
+    /\.(pptx|docx|npz|env|map)$/.test(f) ||
     /references|build-notes|CV_/.test(f)
   )
     failures.push(`Unintended output: ${f}`);
